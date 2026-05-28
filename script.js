@@ -3,7 +3,7 @@
 // ============================================================
 const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbxJHfRDHmqwr4HPIEgf47dd9-YKtWR88gozoqmB_GagFTA5jXdVV-q8yGP3KIqzUArp/exec";
 // Konfigurasi Waktu Pengumuman (Sesuaikan dengan kebutuhan)
-const RELEASE_DATE = "2025-06-02T14:00:00+07:00"; // 2 Juni 2026 jam 14.00 WIB
+const RELEASE_DATE = "2026-06-02T14:00:00+07:00"; // 2 Juni 2026 jam 14.00 WIB
 // Countdown DOM elements
 const phaseCountdown = document.getElementById('phaseCountdown');
 const cdDays = document.getElementById('cdDays');
