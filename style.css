@@ -1,0 +1,807 @@
+/* ==============================
+   VARIABLES & RESET
+============================== */
+:root {
+  --bg-primary: #FDFBF5;
+  --bg-soft: #FAF6EC;
+  --emerald-deep: #0B3D2E;
+  --emerald-forest: #155441;
+  --emerald-sage: #5A7A6B;
+  --gold-warm: #C9A961;
+  --gold-deep: #A88842;
+  --gold-light: #E6D49C;
+  --ink: #1A1F1B;
+  --red-error: #B91C1C;
+  --red-bg: #FEE2E2;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input { font-family: inherit; }
+
+.hidden { display: none !important; }
+
+/* ==============================
+   BACKGROUND PATTERN & CORNER
+============================== */
+.pattern-bg {
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(201, 169, 97, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(11, 61, 46, 0.05) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A961' stroke-width='0.4' opacity='0.12'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z'/%3E%3Cpath d='M40 20 L60 40 L40 60 L20 40 Z'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: auto, auto, 80px 80px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.corner {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  color: var(--gold-warm);
+  fill: currentColor;
+  opacity: 0.5;
+  display: none;
+}
+.corner g { stroke: currentColor; stroke-width: 0.6; }
+.corner-tl { top: 0; left: 0; }
+.corner-tr { top: 0; right: 0; transform: rotate(90deg); }
+.corner-bl { bottom: 0; left: 0; transform: rotate(-90deg); }
+.corner-br { bottom: 0; right: 0; transform: rotate(180deg); }
+@media (min-width: 768px) {
+  .corner { display: block; }
+}
+
+/* ==============================
+   CONTAINER & HEADER
+============================== */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .container { padding: 64px 20px; }
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease-out 0.1s forwards;
+}
+
+.arabic-text {
+  font-family: 'Amiri', serif;
+  color: var(--emerald-deep);
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  animation: shimmer 3s ease-in-out infinite;
+text-align: center;  
+}
+.arabic-text.small { font-size: 1.125rem; margin-bottom: 8px; }
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 24px 0;
+}
+.divider.small { margin: 32px 0 24px; }
+.divider .line {
+  display: block;
+  width: 64px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-warm) 50%, var(--gold-warm) 100%);
+}
+.divider .line:last-child {
+  background: linear-gradient(90deg, var(--gold-warm) 0%, var(--gold-warm) 50%, transparent 100%);
+}
+.divider .ornament {
+  width: 32px;
+  height: 32px;
+  color: var(--gold-warm);
+  fill: rgba(201, 169, 97, 0.15);
+  stroke: currentColor;
+  stroke-width: 0.8;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--gold-deep);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.eyebrow.gold { color: var(--gold-deep); margin-bottom: 8px; }
+
+.school-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 2.25rem;
+  color: var(--emerald-deep);
+  line-height: 1.1;
+}
+@media (min-width: 640px) { .school-name { font-size: 3rem; } }
+
+.school-year {
+  margin-top: 16px;
+  font-size: 0.875rem;
+  color: rgba(21, 84, 65, 0.7);
+  letter-spacing: 0.08em;
+}
+
+/* ==============================
+   MAIN CARD
+============================== */
+.main-card {
+  background-color: var(--bg-soft);
+  border-radius: 8px;
+  box-shadow: 0 25px 50px -12px rgba(11, 61, 46, 0.15);
+  border: 1px solid rgba(201, 169, 97, 0.3);
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.9s ease-out 0.3s forwards;
+}
+
+.card-band {
+  height: 8px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-light), var(--gold-deep));
+}
+
+.card-inner {
+  padding: 28px;
+}
+@media (min-width: 768px) {
+  .card-inner { padding: 48px; }
+}
+
+.phase {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.phase-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: var(--emerald-deep);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.phase-subtitle {
+  text-align: center;
+  color: rgba(21, 84, 65, 0.7);
+  font-size: 0.875rem;
+  margin-bottom: 32px;
+}
+
+/* ==============================
+   LOGIN FORM
+============================== */
+.login-form {
+  max-width: 24rem;
+  margin: 0 auto;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(21, 84, 65, 0.8);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: var(--bg-primary);
+  border: 1px solid rgba(11, 61, 46, 0.15);
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--gold-warm);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.2);
+}
+
+.error-box {
+  background-color: var(--red-bg);
+  border-left: 4px solid #F87171;
+  color: var(--red-error);
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.875rem;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-forest) 100%);
+  color: var(--bg-primary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.875rem;
+  padding: 16px;
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(11, 61, 46, 0.2);
+  transition: all 0.3s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 20px 25px -5px rgba(11, 61, 46, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.login-footer {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(21, 84, 65, 0.5);
+}
+
+/* ==============================
+   BARAKALLAH SECTION
+============================== */
+.barakallah-section {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 20px;
+  background: rgba(201, 169, 97, 0.1);
+  border-radius: 12px;
+  border: 1px solid var(--gold-warm);
+}
+
+.barakallah-text {
+  font-family: 'Amiri', serif;
+  font-size: 1.8rem;
+  color: var(--emerald-deep);
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.ucapan-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--emerald-forest);
+  text-align: center;
+  font-style: italic;
+}
+
+/* ==============================
+   STATUS LULUS
+============================== */
+.status-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.status-lulus {
+  position: relative;
+  background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald-forest) 100%);
+  color: var(--bg-primary);
+  padding: 20px 40px;
+  border-radius: 6px;
+  box-shadow: 0 20px 25px -5px rgba(11, 61, 46, 0.3);
+}
+
+.status-lulus .status-eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--gold-light);
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.status-lulus .status-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 3rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+/* ==============================
+   TABS
+============================== */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid rgba(11, 61, 46, 0.15);
+  justify-content: center;  /* <-- TAMBAHKAN INI */
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 12px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--emerald-sage);
+  transition: all 0.3s;
+}
+
+.tab-btn.active {
+  color: var(--gold-deep);
+  border-bottom: 3px solid var(--gold-deep);
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ==============================
+   SKL TEMPLATE
+============================== */
+.skl-template {
+  background: white;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 11pt;
+  line-height: 1.35;
+  color: #000;
+  width: 100%;
+  margin: 0 auto;
+  padding: 12mm 15mm;
+  box-sizing: border-box;
+}
+
+.skl-kop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #0b3d2e;
+}
+
+.skl-logo img {
+  height: 85px;
+  width: auto;
+  display: block;
+}
+
+.skl-kop-text {
+  flex: 1;
+  text-align: center;
+}
+
+.skl-kop-text .yayasan {
+  font-size: 11pt;
+  font-weight: bold;
+}
+
+.skl-kop-text .sekolah {
+  font-size: 14pt;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.skl-kop-text .akreditasi {
+  font-size: 10pt;
+  font-style: italic;
+}
+
+.skl-kop-text .alamat {
+  font-size: 9pt;
+  color: #333;
+  margin-top: 4px;
+}
+
+.skl-kop-kosong {
+  flex: 0 0 70px;
+}
+
+.skl-judul {
+  text-align: center;
+  margin: 15px 0 12px;
+}
+
+.skl-judul .surat {
+  font-size: 16pt;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.skl-judul .nomor {
+  font-size: 11pt;
+  margin-top: 4px;
+}
+
+.skl-judul .jenjang {
+  font-size: 11pt;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.skl-judul .tahun {
+  font-size: 11pt;
+  margin-top: 2px;
+}
+
+.skl-isi {
+  margin-top: 10px;
+}
+
+.skl-isi p {
+  margin: 6px 0;
+  text-align: justify;
+  font-size: 11pt;
+}
+
+.lulus-text {
+  text-align: center;
+  font-weight: bold;
+  font-size: 12pt;
+  margin: 10px 0;
+}
+
+.data-row {
+  display: flex;
+  margin-bottom: 4px;
+  align-items: baseline;
+}
+
+.data-label {
+  width: 270px;
+  flex-shrink: 0;
+  font-size: 11pt;
+}
+
+.data-value {
+  flex: 1;
+  font-size: 11pt;
+}
+
+.skl-tabel-nilai {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 10pt;
+}
+
+.skl-tabel-nilai th,
+.skl-tabel-nilai td {
+  border: 1px solid #000;
+  padding: 5px 6px;
+}
+
+.skl-tabel-nilai th {
+  background: #f5f0e8;
+  font-weight: 600;
+  text-align: center;
+}
+
+.skl-tabel-nilai td:first-child {
+  text-align: center;
+  width: 40px;
+}
+
+.skl-tabel-nilai td:last-child {
+  text-align: center;
+  width: 75px;
+}
+
+.skl-ttd {
+  margin-top: 25px;
+  text-align: right;
+}
+
+.skl-ttd p {
+  margin: 3px 0;
+  font-size: 11pt;
+}
+
+.nama-kepsek {
+  font-weight: bold;
+  text-decoration: underline;
+  margin-top: 30px;
+}
+
+/* Note Pengambilan SKL */
+.skl-note {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed #ccc;
+  text-align: center;
+  font-size: 13pt;
+  color: #f80b0b;
+  background: rgba(201, 169, 97, 0.05);
+  font-weight: bold, italic;
+
+}
+
+.skl-note a {
+  color: #0b3d2e;
+  text-decoration: underline;
+}
+
+/* ==============================
+   TKA CARD
+============================== */
+.tka-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.tka-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #0b3d2e;
+  margin-bottom: 20px;
+}
+
+.tka-score {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.tka-item {
+  text-align: center;
+  padding: 15px 25px;
+  background: #f9f6ef;
+  border-radius: 12px;
+  min-width: 180px;
+}
+
+.tka-label {
+  font-size: 0.8rem;
+  color: #7a8e7a;
+}
+
+.tka-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #c9a961;
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-secondary {
+  background: #0b3d2e;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #1a6b4a;
+}
+
+.logout-wrap {
+  text-align: center;
+  margin-top: 32px;
+}
+
+.logout-btn {
+  color: rgba(21, 84, 65, 0.6);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.logout-btn:hover {
+  color: var(--emerald-deep);
+}
+
+/* ==============================
+   UNDANGAN AKHIRUSSANAH
+============================== */
+.invitation-section {
+  margin-top: 40px;
+}
+
+.invitation-head {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.event-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--emerald-deep);
+  margin-top: 12px;
+}
+
+.event-org {
+  color: rgba(21, 84, 65, 0.7);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.event-info-card {
+  background: linear-gradient(135deg, rgba(11, 61, 46, 0.05), rgba(201, 169, 97, 0.05));
+  border: 1px solid rgba(201, 169, 97, 0.3);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 640px) {
+  .event-info-card { grid-template-columns: 1fr 1fr 1fr; padding: 28px; }
+}
+
+.info-block {
+  text-align: center;
+}
+
+.info-label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(21, 84, 65, 0.6);
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 0.875rem;
+  color: var(--emerald-deep);
+  font-weight: 500;
+}
+
+.map-wrapper {
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(11, 61, 46, 0.15);
+}
+
+.map-wrapper iframe {
+  display: block;
+  width: 100%;
+  height: 280px;
+  border: 0;
+}
+
+.map-link-wrap {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--emerald-forest);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.map-link:hover {
+  color: var(--gold-deep);
+}
+
+.invitation-text {
+  margin-top: 28px;
+  text-align: center;
+  font-style: italic;
+  color: rgba(21, 84, 65, 0.8);
+}
+
+.arabic-translate {
+  margin-top: 4px;
+  text-align: center;
+  font-style: italic;
+  color: rgba(21, 84, 65, 0.6);
+  font-size: 0.875rem;
+}
+
+/* ==============================
+   FOOTER
+============================== */
+.page-footer {
+  margin-top: 48px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(21, 84, 65, 0.5);
+  letter-spacing: 0.08em;
+  opacity: 0;
+  animation: fadeUp 0.9s ease-out 0.5s forwards;
+}
+
+/* ==============================
+   ANIMATIONS
+============================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* ==============================
+   PRINT STYLES
+============================== */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  
+  .pattern-bg, .corner, .page-header, .card-band, .tabs,
+  .action-buttons, .logout-wrap, .page-footer, .invitation-section,
+  .status-wrap, .barakallah-section, .btn-secondary {
+    display: none !important;
+  }
+  
+  .tab-content {
+    display: block !important;
+  }
+  
+  .skl-template {
+    padding: 8mm 12mm !important;
+    box-shadow: none !important;
+  }
+  
+  .tka-card {
+    padding: 0 !important;
+    border: none !important;
+  }
+}
